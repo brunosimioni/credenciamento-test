@@ -80,7 +80,7 @@ function testFormularioPage1() {
 };
 
 
-
+ 
 
 const URL = 'http://blog.oscarmorrison.com/nightmarejs-on-heroku-the-ultimate-scraping-setup/';
 console.log('Welcome to Nightmare scrape\n==========');

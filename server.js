@@ -23,7 +23,11 @@ axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.string
 var nightmare = Nightmare({ show: true })
 var app = express();
 var port = process.env.PORT || 8080;
-var nightmareShow = process.env.NIGHTMARE_SHOW || 8080;
+var nightmareShow = process.env.NIGHTMARE_SHOW || true;
+
+console.log("ENV_VAR PORT: " + port);
+console.log("ENV_VAR NIGHTMARE_SHOW: " + nightmareShow);
+
 
 //unirest.get(rodoanelUrl)
   //.headers({'Accept': '*/*', 'Accept-Encoding': 'gzip, deflate'})
@@ -65,6 +69,6 @@ function testFormularioPage1() {
 };
 
 
-console.log("starting server @ port " + port);
+console.log("Starting server...");
 app.listen(port);
 

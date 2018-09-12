@@ -1,5 +1,4 @@
 language: node_js
-script: node server.js
 branches:
   only:
   - master

@@ -1,0 +1,6 @@
+{
+  "name": "Credenciamento Test via Nightmare @ Heroku",
+  "description": "All the buildpack and settings you need to get Scraping on Heroku",
+  "repository": "https://github.com/brunosimioni/credenciamento-test",
+  "keywords": ["node", "phantomjs", "nightmarejs", "scrape"]
+}

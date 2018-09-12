@@ -1,7 +1,6 @@
 var express = require('express'),
     parser = require('body-parser'),
     exec = require('child_process').exec,
-    uuid = require('node-uuid'),
     unirest = require('unirest');
 
 var app = express();

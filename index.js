@@ -19,7 +19,7 @@ axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.string
     .catch(function (error) {
         console.log(error);
     });
-*/
+*/  
 
 
 var nightmare = Nightmare({ show: true })
@@ -97,6 +97,6 @@ nightmare
     .then(() => (console.log('process exit'), process.exit()));
 
 
-console.log("Starting server...");
-app.listen(port);
+//console.log("Starting server...");
+//app.listen(port);
 

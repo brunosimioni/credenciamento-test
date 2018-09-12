@@ -1,8 +1,26 @@
-var express = require('express'),
-    parser = require('body-parser'),
-    exec = require('child_process').exec,
-    unirest = require('unirest');
+var express = require('express');
+var parser = require('body-parser');
+var Nightmare = require('nightmare');
+var querystring = require('querystring');
+var axios = require('axios');
 
+var form = {'acao': 'gerar_pessoa', 'cep_estado': '', 'cep_cidade': '', 'sexo': 'H', 'idade': '22', 'pontuacao': 'S'};
+var headers = { 
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:24.0) Gecko/20100101 Firefox/24.0',
+    'Content-Type' : 'application/x-www-form-urlencoded' 
+};
+
+axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.stringify(form))
+    .then(function (response) {
+        console.log(response);
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
+
+
+
+var nightmare = Nightmare({ show: true })
 var app = express();
 var port = process.env.PORT || 8080;
 
@@ -14,21 +32,37 @@ var port = process.env.PORT || 8080;
      
 app.get('/test', parser.json(), function(request, response) 
 {
-    //    response.status(500).send({ error: e });
     console.log('Testing...');
+    var result = testFormularioPage1();
+    
+    result.callback = function(data) {
+        response.status(200).send({ "result": data });
+    };
 
-    exec("./scrapper.js", undefined, function(error, stdout, stderr) 
-    {
-        console.log(stdout);
-        console.log(stderr);
-
-        if (!error) {
-            response.status(200).send({ stdout: stdout });
-        } else {
-            response.status(500).send({ stderr: stderr });
-        }
-    });
 });
+
+
+function testFormularioPage1() {
+  
+    var result = {};
+    
+    nightmare
+        .goto('https://duckduckgo.com')
+        .type('#search_form_input_homepage', 'github nightmare')
+        .click('#search_button_homepage')
+        .wait('#r1-0 a.result__a')
+        .evaluate(() => document.querySelector('#r1-0 a.result__a').href)
+        .end()
+        .then(response => {
+            result.callback(response);
+        })
+        .catch(error => {
+            console.error('Search failed:', error)
+        });
+    
+    return result;
+};
+
 
 console.log("starting server @ port " + port);
 app.listen(port);

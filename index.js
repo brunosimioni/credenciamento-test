@@ -22,13 +22,16 @@ axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.string
 */  
 
 
-var nightmare = Nightmare({ show: true })
-var app = express();
-var port = process.env.PORT || 8080;
-var nightmareShow = process.env.NIGHTMARE_SHOW || true;
-
+var nightmareShow = process.env.NIGHTMARE_SHOW || false;
 console.log("ENV_VAR PORT: " + port);
 console.log("ENV_VAR NIGHTMARE_SHOW: " + nightmareShow);
+
+
+var nightmare = Nightmare({ show: nightmareShow })
+var app = express();
+var port = process.env.PORT || 8080;
+
+
 
 
 //unirest.get(rodoanelUrl)

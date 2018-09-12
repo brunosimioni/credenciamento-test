@@ -4,5 +4,6 @@ branches:
   only:
   - master
 sudo: false
-
+notifications:
+  webhooks: https://outlook.office.com/webhook/e99ca86d-d952-44e6-8f89-8ba7418d6230@2e0fd3f1-c310-4812-9e4f-e2a25c4a159e/TravisCI/b660b6facfef41cdbba8289038b3d206/8d6513b3-fbae-43d0-bf0d-0110b45282ee
 

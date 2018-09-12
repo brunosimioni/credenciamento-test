@@ -4,6 +4,8 @@ var Nightmare = require('nightmare');
 var querystring = require('querystring');
 var axios = require('axios');
 
+
+/*
 var form = {'acao': 'gerar_pessoa', 'cep_estado': '', 'cep_cidade': '', 'sexo': 'H', 'idade': '22', 'pontuacao': 'S'};
 var headers = { 
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.8; rv:24.0) Gecko/20100101 Firefox/24.0',
@@ -17,7 +19,7 @@ axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.string
     .catch(function (error) {
         console.log(error);
     });
-
+*/
 
 
 var nightmare = Nightmare({ show: true })
@@ -76,9 +78,6 @@ function testFormularioPage1() {
 
 
 
-
-const Nightmare = require('nightmare');
-const nightmare = Nightmare({ show: false });
 
 const URL = 'http://blog.oscarmorrison.com/nightmarejs-on-heroku-the-ultimate-scraping-setup/';
 console.log('Welcome to Nightmare scrape\n==========');

@@ -28,4 +28,4 @@ libxss1
 libnss3-dev
 gcc-multilib
 g++-multilib
-
+libcairo2

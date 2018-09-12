@@ -1,5 +1,5 @@
 language: node_js
-script: npm test
+script: node server.js
 branches:
   only:
   - master

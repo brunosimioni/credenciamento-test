@@ -20,24 +20,20 @@ app.get('/test', parser.json(), function(request, response)
 {
   console.log('Executing test...');
 
-  const URL = 'http://blog.oscarmorrison.com/nightmarejs-on-heroku-the-ultimate-scraping-setup/';
-  console.log('Welcome to Nightmare scrape\n==========');
+  const URL = 'http://vempracielohom.clientes.ananke.com.br/venda/lio-mais/passo-1/';
+  console.log('Running test...');
 
   var nightmare = Nightmare({ show: nightmareShow });
-
 
   var ss_step1 = "screenshots/step1-" + uuidv4() + ".png";
   var ss_step2 = "screenshots/step2-" + uuidv4() + ".png";
   var ss_step3 = "screenshots/step3-" + uuidv4() + ".png";
 
   nightmare
-    .goto('https://duckduckgo.com')
+    .goto('http://vempracielohom.clientes.ananke.com.br/venda/lio-mais/passo-1/')
     .screenshot(ss_step1)
-    .type('#search_form_input_homepage', 'github nightmare')
     .screenshot(ss_step2)
-    .click('#search_button_homepage')
-    .wait('#r1-0 a.result__a')
-    .evaluate(() => document.querySelector('#r1-0 a.result__a').href)
+    .type('[name=registry] ', '33454319803')
     .screenshot(ss_step3)
     .end()
     .then((result) => {

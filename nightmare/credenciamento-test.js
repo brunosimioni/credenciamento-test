@@ -3,6 +3,7 @@ var querystring = require('querystring');
 var axios = require('axios');
 const uuidv4 = require('uuid/v4');
 var fs = require('fs');
+var html2json = require('html2json').html2json;
 
 module.exports =
 {
@@ -21,10 +22,16 @@ module.exports =
 
     async function getFakeCreditCard() {
       try {
-        var form = {'acao': 'gerar_pessoa', 'cep_estado': '', 'cep_cidade': '', 'sexo': 'H', 'idade': '22', 'pontuacao': 'S'};
+        var form = {'acao': 'gerar_cc', 'pontuacao': 'S', 'bandeira': 'master'};
         var headers = { 'Content-Type' : 'application/x-www-form-urlencoded' };
         const res = await axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.stringify(form));
-        return res.data;
+        var rawCC = html2json(res.data);
+        var cc = {
+          numero: rawCC.child[1].child[3].child[0].text,
+          validade: rawCC.child[3].child[3].child[0].text,
+          cvv: rawCC.child[5].child[3].child[0].text
+        };
+        return cc;
       } catch(e) {
         console.log(e);
       }
@@ -32,10 +39,15 @@ module.exports =
 
     async function getFakeBankAccount() {
       try {
-        var form = {'acao': 'gerar_pessoa', 'cep_estado': '', 'cep_cidade': '', 'sexo': 'H', 'idade': '22', 'pontuacao': 'S'};
+        var form = {'acao': 'gerar_conta_bancaria', 'estado': '', 'banco': '120'};
         var headers = { 'Content-Type' : 'application/x-www-form-urlencoded' };
         const res = await axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.stringify(form));
-        return res.data;
+        var rawBA = html2json(res.data);
+        var ba = {
+          cc: rawBA.child[1].child[3].child[0].text,
+          ag: rawBA.child[3].child[3].child[0].text
+        }
+        return ba;
       } catch(e) {
         console.log(e);
       }
@@ -45,12 +57,6 @@ module.exports =
     const fakeCreditCard = await getFakeCreditCard();
     const fakeBankAccount = await getFakeBankAccount();
 
-    console.log("\n\nPerson");
-    console.log(fakePerson);
-    console.log("\n\nCredit Card");
-    console.log(fakeCreditCard);
-    console.log("\n\Bank Account");
-    console.log(fakeBankAccount);
     /*var nightmare = Nightmare({ show: nightmareShow });
 
     var ss_step1 = "screenshots/step1-" + uuidv4() + ".png";

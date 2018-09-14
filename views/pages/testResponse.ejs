@@ -1,5 +1,4 @@
 <!-- views/pages/testResponse.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,24 +9,14 @@
 <header>
     <% include ../partials/header %>
 </header>
-
-<main>
-    <div class="jumbotron">
-        <h1>This is great</h1>
-        <p>Welcome to templating using EJS</p>
-
-        <ul>
-            <% imgs.forEach(function(img) { %>
-                <li><img src='data:image/png;base64,<%=img%>'</li>
-            <% }); %>
-        </ul>
-
-    </div>
-</main>
-
-<footer>
-    <% include ../partials/footer %>
-</footer>
-
+  <main>
+      <div class="jumbotron">
+          <ul>
+              <% imgs.forEach(function(img) { %>
+                  <li><img src='data:image/png;base64,<%=img%>'</li>
+              <% }); %>
+          </ul>
+      </div>
+  </main>
 </body>
 </html>

@@ -14,12 +14,31 @@ module.exports =
     var ss_step2 = "screenshots/step2-" + uuidv4() + ".png";
     var ss_step3 = "screenshots/step3-" + uuidv4() + ".png";
 
+    var fp = mocks.fakePerson;
+
     nightmare
       .goto('http://vempracielohom.clientes.ananke.com.br/venda/lio-mais/passo-1/')
+      .type('[name=registry] ', fp.cpf)
+      .type('[name=contact_name] ', fp.nome)
+      .type('[name=contact_phone] ', fp.celular)
+      .type('[name=owner_email] ', fp.email)
+      .type('[name=owner_confirm_email] ', fp.email)
       .screenshot(ss_step1)
+      .scrollTo(400, 0)
+      // ramo de atividade
+      .click('#field-business-type > div > div > div > div')
+      .wait(500)
+      .click("#field-business-type div > div > div > div:nth-of-type(2) > div > div:nth-of-type(4)")
       .screenshot(ss_step2)
-      .type('[name=registry] ', '334.543.198-03')
+      // faixa de faturamento
+      .click('form > div > section:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div')
+      .wait(500)
+      .click('form > div > section:nth-of-type(4) > div:nth-of-type(2) > div:nth-of-type(2) > div > div > div:nth-of-type(2) > div > div:nth-of-type(4)')
+      .wait(500)
       .screenshot(ss_step3)
+      .click('[name=pass]')
+      .wait(3000)
+      .screenshot(ss_step4)
       .end()
       .then((data) => {
           console.log(data);

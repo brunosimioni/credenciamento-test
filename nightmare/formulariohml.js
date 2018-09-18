@@ -18,20 +18,23 @@ async function run (mocks, nightmareShow, appendResponse) {
   var ss_step3 = "screenshots/step3-" + uuidv4() + ".png";
   var ss_step4 = "screenshots/step4-" + uuidv4() + ".png";
   var ss_step5 = "screenshots/step5-" + uuidv4() + ".png";
+  var ss_step6 = "screenshots/step6-" + uuidv4() + ".png";
+  var ss_step7 = "screenshots/step7-" + uuidv4() + ".png";
   var ss_error = "screenshots/error-" + uuidv4() + ".png";
 
 
   await nightmare
     .goto(hmlUrl)
-    .wait(2000)
     .then(async () => {
 
         try {
-          await fillInformacoesContato(nightmare, fp, ss_step1, appendResponse);
-          await fillInformacoesNegocio(nightmare, fp, ss_step2, appendResponse);
-          await fillInformacoesAdicionais(nightmare, fp, ss_step3, appendResponse);
-          await fillInformacoesEndereco(nightmare, fp, ss_step4, appendResponse);
-          await fillInformacoesBanco(nightmare, fba, ss_step5, appendResponse);
+          await itsReady(nightmare, fp, ss_step1, appendResponse)
+          await fillInformacoesContato(nightmare, fp, ss_step2, appendResponse);
+          await fillInformacoesNegocio(nightmare, fp, ss_step3, appendResponse);
+          await fillInformacoesAdicionais(nightmare, fp, ss_step4, appendResponse);
+          await fillInformacoesEndereco(nightmare, fp, ss_step5, appendResponse);
+          await fillInformacoesBanco(nightmare, fba, ss_step6, appendResponse);
+          await moveToVSC(nightmare, fp, ss_step7, appendResponse);
 
           await nightmare.end()
           console.log("Fim dos testes");
@@ -45,6 +48,7 @@ async function run (mocks, nightmareShow, appendResponse) {
               .screenshot(ss_error)
               .end()
               .then(() => {
+                console.log(error);
                 appendResponse(false, ss_error, error);
                 console.log("Oops, erro: " + error);
               });
@@ -58,15 +62,30 @@ async function run (mocks, nightmareShow, appendResponse) {
     });
 }
 
+// printe a tela pronta
+async function itsReady (nightmare, fp, ssp, appendResponse) {
+  await nightmare
+    .screenshot(ssp)
+    .then(() => {
+      console.log("Evidência de full load");
+      appendResponse(true, ssp, "Formulário aberto.");
+    });
+}
+
+
 // informações do contato
 async function fillInformacoesContato (nightmare, fp, ssp, appendResponse) {
 
+  var email = (uuidv4() + "@asd.com");
+
   await nightmare
-    .type('[name=registry] ', fp.cpf)
-    .type('[name=contact_name] ', fp.nome)
-    .type('[name=contact_phone] ', fp.celular)
-    .type('[name=owner_email] ', fp.email)
-    .type('[name=owner_confirm_email] ', fp.email)
+    .wait('[name=registry]')
+    .click('[name=registry]')
+    .insert('[name=registry]', fp.cpf)
+    .insert('[name=contact_name]', fp.nome)
+    .insert('[name=contact_phone]', fp.celular)
+    .type('[name=owner_email]', email)
+    .type('[name=owner_confirm_email]', email)
     .screenshot(ssp)
     .then(() => {
       console.log("Informações de contato preenchidas");
@@ -124,7 +143,9 @@ async function fillInformacoesAdicionais (nightmare, fp, ssp, appendResponse) {
 // endereço
 async function fillInformacoesEndereco (nightmare, fp, ssp, appendResponse) {
   await nightmare
-    .type('[name=store_address_cep]', fp.cep)
+    .wait(1000)
+    .click('[name=store_address_cep]')
+    .insert('[name=store_address_cep]', fp.cep)
     .wait(3000)
     .type('[name=store_address_number]', fp.numero)
     .screenshot(ssp)
@@ -137,17 +158,33 @@ async function fillInformacoesEndereco (nightmare, fp, ssp, appendResponse) {
 // conta banco do brasil
 async function fillInformacoesBanco (nightmare, fba, ssp, appendResponse) {
   await nightmare
-    .scrollTo(400, 0)
+    .scrollTo(500, 0)
+    // banco
     .click("#banking_section div > div > div > div > div > div")
     .wait(500)
-    .click("form > div > section:nth-of-type(2) > div:nth-of-type(2) > div > div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(5)")
-    .type("bank_agency_number", fba.ag)
-    .type("bank_account_number", fba.cc.split("-")[0])
-    .type("bank_account_digit", fba.cc.split("-")[1])
+    .click("#banking_section div > div > div > div > div > div:nth-of-type(2) > div > div:nth-of-type(1)")
+    // conta corrente
+    .click("#account_type_corrente")
+    .type("[name=bank_agency_number]", fba.ag)
+    .type("[name=bank_account_number]", fba.cc.split("-")[0])
+    .type("[name=bank_account_digit]", fba.cc.split("-")[1])
     .screenshot(ssp)
     .then(() => {
       console.log("Informações de banco preenchidas");
       appendResponse(true, ssp, "Informações de banco preenchidas.");
+    });
+}
+
+async function moveToVSC (nightmare, fp, ssp, appendResponse) {
+  // passando para vsc
+  await nightmare
+    .wait(5000)
+    .click('[name=pass]')
+    .wait(5000)
+    .screenshot(ssp)
+    .then(() => {
+      console.log("Formulário preenchido. Exibindo dados de pagamento");
+      appendResponse(true, ssp, "Formulário preenchido. Exibindo dados de pagamento");
     });
 }
 

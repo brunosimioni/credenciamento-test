@@ -6,6 +6,7 @@ var fs = require('fs');
 
 var nightmareShow = process.env.NIGHTMARE_SHOW || false;
 var port = process.env.PORT || 8080;
+var teamsNotifications = process.env.TEAMS_NOTIFICATIONS || false;
 
 console.log("ENV_VAR PORT: " + port);
 console.log("ENV_VAR NIGHTMARE_SHOW: " + nightmareShow);

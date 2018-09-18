@@ -1,7 +1,7 @@
 var express = require('express');
 var parser = require('body-parser');
 var mocks = require('./nightmare/mocks');
-var formulariotest = require('./nightmare/formulariotest');
+var formulariohml = require('./nightmare/formulariohml');
 var fs = require('fs');
 
 var nightmareShow = process.env.NIGHTMARE_SHOW || false;
@@ -39,7 +39,7 @@ app.get('/hml', parser.json(), async function(request, response)
   response.write("  <div>");
   response.write("    <ul>");
 
-  await formulariotest.run(mocked, nightmareShow, appendResponse);
+  await formulariohml.run(mocked, nightmareShow, appendResponse);
 
   response.write("    </ul>");
   response.write("  </div>");

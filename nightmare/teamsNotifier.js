@@ -5,14 +5,16 @@ var teamsNotifications = process.env.TEAMS_NOTIFICATIONS || false;
 
 module.exports =
 {
-  error: function (msg) {
+  error: function (msg, env) {
+
+    var uri = env == "PRODUÇÃO" ? "https://credenciamento-test.herokuapp.com/prd" : "https://credenciamento-test.herokuapp.com/hml";
 
     var notification = {
       "@context": "http://schema.org/extensions",
       "@type": "MessageCard",
       "themeColor": "0072C6",
-      "title": "Problemas no formulário de credenciamento da Lio+",
-      "text": ("Ops, houve um problema no formulário de credenciamento da Lio+: " + error),
+      "title": (env + " - Problemas no formulário de credenciamento da Lio+"),
+      "text": ("Ops, houve um problema no formulário de credenciamento da Lio+, para o ambiente " + env + ": " + msg),
       "potentialAction": [
           {
               "@type": "OpenUri",
@@ -20,7 +22,7 @@ module.exports =
               "targets": [
                   {
                       "os": "default",
-                      "uri": "https://credenciamento-test.herokuapp.com/test"
+                      "uri": uri
                   }
               ]
           }

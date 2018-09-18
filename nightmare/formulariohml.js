@@ -180,7 +180,7 @@ async function moveToVSC (nightmare, fp, ssp, appendResponse) {
   await nightmare
     .wait(5000)
     .click('[name=pass]')
-    .wait(5000)
+    .wait(10000)
     .screenshot(ssp)
     .then(() => {
       console.log("Formulário preenchido. Exibindo dados de pagamento");

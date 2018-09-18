@@ -36,7 +36,8 @@ module.exports =
 
     async function getFakeBankAccount() {
       try {
-        var form = {'acao': 'gerar_conta_bancaria', 'estado': '', 'banco': '120'};
+        // banco do brasil
+        var form = {'acao': 'gerar_conta_bancaria', 'estado': '', 'banco': '2'};
         var headers = { 'Content-Type' : 'application/x-www-form-urlencoded' };
         const res = await axios.post('https://www.4devs.com.br/ferramentas_online.php', querystring.stringify(form));
         var rawBA = html2json(res.data);

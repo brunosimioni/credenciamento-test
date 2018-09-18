@@ -9,6 +9,7 @@ var port = process.env.PORT || 8080;
 
 console.log("ENV_VAR PORT: " + port);
 console.log("ENV_VAR NIGHTMARE_SHOW: " + nightmareShow);
+console.log("ENV_VAR TEAMS_NOTIFICATIONS: " + teamsNotifications);
 
 var app = express();
 

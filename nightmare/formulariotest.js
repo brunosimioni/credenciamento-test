@@ -49,7 +49,7 @@ async function run (mocks, nightmareShow, appendResponse) {
                 console.log("Oops, erro: " + error);
               });
 
-            //teamsNotifier.error(error);
+            teamsNotifier.error(error);
           }
           catch(general_error) {
             console.log("erro geral: " + general_error);
